@@ -6,7 +6,7 @@ import createError from 'http-errors'
 
 export const router = express.Router()
 
-router.get('/', (req, res, next) => { res.render('body/test') })
+router.get('/', (req, res, next) => { res.render('body/auth/login') })
 
 router.use('*', (req, res, next) => {
   next(createError(404))
