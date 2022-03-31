@@ -12,6 +12,6 @@ export class GitlabController {
   index (req, res, next) { // ToDo auth before!
     console.log(req.session)
     console.log('test')
-    res.render('body/gitlab/index')
+    res.render('body/index')
   }
 }

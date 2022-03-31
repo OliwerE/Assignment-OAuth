@@ -11,7 +11,7 @@ const authorize = (req, res, next) => {
     if (req.session.gitlabTokenData) {
       return next()
     } else {
-      next(createError(403))
+      res.redirect('/auth/login')
     }
   } catch (err) {
     next(createError(500))

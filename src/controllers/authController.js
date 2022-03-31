@@ -11,11 +11,7 @@ import fetch from 'node-fetch'
 export class AuthController {
   login (req, res, next) {
     try {
-      if (req.session.gitlabTokenData) {
-        res.redirect('/gitlab')
-      } else {
-        res.render('body/auth/login')
-      }
+      res.render('body/login')
     } catch (err) {
       next(createError(500))
     }
@@ -35,7 +31,7 @@ export class AuthController {
             return res.json()
           }).then(json => {
             req.session.gitlabTokenData = json
-            res.redirect('/gitlab')
+            res.redirect('/')
           }).catch(err => {
             console.log(err)
           })
