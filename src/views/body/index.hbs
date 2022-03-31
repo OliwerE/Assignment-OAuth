@@ -1,1 +1,11 @@
-You are logged in!
+    {{#if viewData}}
+      <h2>Hello {{viewData.name}}!</h2>
+      <img src="{{viewData.avatar_url}}" alt="Avatar">
+      <p>Name: {{viewData.name}}</p>
+      <p>Username: {{viewData.username}}</p>
+      <p>User ID: {{viewData.id}}</p>
+      <p>email: {{viewData.email}}</p>
+      <p>Last activity: {{viewData.last_activity_on}}</p>
+    {{else}}
+      <h2>Profile information not found.</h2>
+    {{/if}}
