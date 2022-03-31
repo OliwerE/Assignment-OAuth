@@ -1,11 +1,14 @@
     {{#if viewData}}
-      <h2>Hello {{viewData.name}}!</h2>
-      <img src="{{viewData.avatar_url}}" alt="Avatar">
-      <p>Name: {{viewData.name}}</p>
-      <p>Username: {{viewData.username}}</p>
-      <p>User ID: {{viewData.id}}</p>
-      <p>email: {{viewData.email}}</p>
-      <p>Last activity: {{viewData.last_activity_on}}</p>
+      <div id="profile-information">
+        <div id="profile-image-container">
+          <img src="{{viewData.avatar_url}}" alt="Avatar">
+        </div>
+        <p>User ID: {{viewData.id}}</p>
+        <p>Name: {{viewData.name}}</p>
+        <p>Username: {{viewData.username}}</p>
+        <p>Email: {{viewData.email}}</p>
+        <p>Last activity: {{viewData.last_activity_on}}</p>
+      </div>
     {{else}}
       <h2>Profile information not found.</h2>
     {{/if}}
