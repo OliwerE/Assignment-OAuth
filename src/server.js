@@ -9,9 +9,11 @@ import { dirname, join } from 'path'
 import { fileURLToPath } from 'url'
 import hbs from 'express-hbs'
 import { router } from './routes/router.js'
+import { connectMongoDB } from './config/mongoose.js'
 
-function run () {
+async function run () {
   const app = express()
+  await connectMongoDB(app)
   app.use(helmet())
   app.use(logger('dev'))
 
