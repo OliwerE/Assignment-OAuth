@@ -11,7 +11,11 @@ import fetch from 'node-fetch'
 export class AuthController {
   login (req, res, next) {
     try {
-      res.render('body/auth/login')
+      if (req.session.gitlabTokenData) {
+        res.redirect('/gitlab')
+      } else {
+        res.render('body/auth/login')
+      }
     } catch (err) {
       next(createError(500))
     }
@@ -21,11 +25,6 @@ export class AuthController {
     try {
       const code = req.query.code
       if (code) {
-        // console.log(code)
-        // console.log(process.env.CLIENT_ID)
-        // console.log(process.env.CLIENT_SECRET)
-        // console.log(process.env.REDIRECT_URI)
-
         await fetch(`https://gitlab.lnu.se//oauth/token?client_id=${process.env.CLIENT_ID}&client_secret=${process.env.CLIENT_SECRET}&code=${code}&grant_type=authorization_code&redirect_uri=${process.env.REDIRECT_URI}`, {
           headers: {
             'Accept': 'application/json',
@@ -35,9 +34,8 @@ export class AuthController {
           }).then(res => {
             return res.json()
           }).then(json => {
-            // console.log(json)
             req.session.gitlabTokenData = json
-            res.render('body/auth/callback')
+            res.redirect('/gitlab')
           }).catch(err => {
             console.log(err)
           })
