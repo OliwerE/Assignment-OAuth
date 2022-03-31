@@ -6,10 +6,22 @@ import express from 'express'
 import createError from 'http-errors'
 import { GitlabController } from '../controllers/gitlabController.js'
 
+const authorize = (req, res, next) => {
+  try {
+    if (req.session.gitlabTokenData) {
+      return next()
+    } else {
+      next(createError(403))
+    }
+  } catch (err) {
+    next(createError(500))
+  }
+}
+
 export const router = express.Router()
 
 const controller = new GitlabController()
 
-router.get('/', controller.index)
+router.get('/', authorize, controller.index)
 
 router.use('*', (req, res, next) => next(createError(404)))
