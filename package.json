@@ -20,7 +20,8 @@
     "express": "^4.17.3",
     "express-hbs": "^2.4.0",
     "helmet": "^5.0.2",
-    "morgan": "^1.10.0"
+    "morgan": "^1.10.0",
+    "node-fetch": "^3.2.3"
   },
   "devDependencies": {
     "@lnu/eslint-config": "^1.1.2",
