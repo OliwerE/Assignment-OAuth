@@ -34,7 +34,6 @@ export class GitlabController {
       if (user.error === 'invalid_token') {
         res.redirect('/auth/refresh')
       } else {
-        const latestEvent = await this.#fetchData(`https://${process.env.GITLAB_BASE_URL}/api/v4/events?per_page=1`, 'GET', req.session.gitlabTokenData.access_token)
         const { name, username, id, email, avatar_url, last_activity_on } = user
 
         const viewData = {
@@ -69,6 +68,7 @@ export class GitlabController {
             action: e.action_name,
             type: e.target_type,
             title: e.target_title,
+            commitTitle: (e.push_data !== null && e.push_data !== undefined  ? e.push_data.commit_title : undefined),
             createdAt: moment(e.created_at).fromNow(),
           }))
 
