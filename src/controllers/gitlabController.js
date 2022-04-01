@@ -38,7 +38,25 @@ export class GitlabController {
 
         // Format latest activity date
         const lastActivityDate = new Date(latestEvent[0].created_at)
-        const lastActivity = lastActivityDate.getDate() + '/' + (lastActivityDate.getMonth() + 1) + '-' + lastActivityDate.getFullYear() + ', kl: ' + lastActivityDate.getHours() + ':' + lastActivityDate.getMinutes()
+        const day = lastActivityDate.getDate()
+        const month = lastActivityDate.getMonth()
+        const year = lastActivityDate.getFullYear()
+
+        let hour
+        if (lastActivityDate.getHours() >= 1 && lastActivityDate.getHours() <= 9) {
+          hour = '0' + lastActivityDate.getHours()
+        } else {
+          hour = lastActivityDate.getHours()
+        }
+
+        let minutes
+        if (lastActivityDate.getMinutes() >= 1 && lastActivityDate.getMinutes() <= 9) {
+          minutes = '0' + lastActivityDate.getMinutes()
+        } else {
+          minutes = lastActivityDate.getMinutes()
+        }
+
+        const lastActivity = day + '/' + month + '-' + year + ', kl: ' + hour + ':' + minutes
 
         const viewData = {
           csrfToken: req.csrfToken(),
