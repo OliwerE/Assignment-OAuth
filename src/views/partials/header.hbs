@@ -1,3 +1,10 @@
 <header>
   <h1>1DV027 Oauth Assignment</h1>
+
+  {{#unless viewData.hideLogout}}
+    <form id="logout-form" method="POST" action="/auth/logout">
+      <input type="hidden" name="_csrf" value="{{viewData.csrfToken}}">
+      <button id="logout-btn">Log out</button>
+    </form>
+  {{/unless}}
 </header>

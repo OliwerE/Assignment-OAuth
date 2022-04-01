@@ -4,6 +4,7 @@
 
 import express from 'express'
 import helmet from 'helmet'
+import csurf from 'csurf'
 import logger from 'morgan'
 import { dirname, join } from 'path'
 import { fileURLToPath } from 'url'
@@ -39,6 +40,13 @@ async function run () {
   app.set('views', join(fullDirName, 'views'))
   app.use(express.urlencoded({ extended: false }))
   app.use(express.static(join(fullDirName, '..', 'public')))
+  app.use(csurf({}))
+
+  // Csurf
+  app.use((err, req, res, next) => {
+    if (err.code !== 'EBADCSRFTOKEN') return next(err)
+    return res.status(403).sendFile(join(fullDirName, 'views', 'errors', '403.html'))
+  })
 
   app.use('/', router)
 

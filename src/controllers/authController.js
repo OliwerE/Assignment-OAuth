@@ -12,10 +12,20 @@ export class AuthController {
   login (req, res, next) {
     try {
       const viewData = {
-        uri: `https://gitlab.lnu.se/oauth/authorize?client_id=${process.env.CLIENT_ID}&redirect_uri=${process.env.REDIRECT_URI}&response_type=code&state=STATE&scope=${process.env.SCOPE}`
+        uri: `https://gitlab.lnu.se/oauth/authorize?client_id=${process.env.CLIENT_ID}&redirect_uri=${process.env.REDIRECT_URI}&response_type=code&state=STATE&scope=${process.env.SCOPE}`,
+        hideLogout: true
       }
 
       res.render('body/login', { viewData })
+    } catch (err) {
+      next(createError(500))
+    }
+  }
+
+  logout (req, res, next) {
+    try {
+      req.session.destroy()
+      res.redirect('/auth/login')
     } catch (err) {
       next(createError(500))
     }

@@ -36,12 +36,13 @@ export class GitlabController {
         const { name, username, id, email, avatar_url, last_activity_on } = user // last_activity_on ska ha tid?? sakans!
 
         const viewData = {
+          csrfToken: req.csrfToken(),
           name,
           username,
           id,
           email,
           avatar_url,
-          last_activity_on
+          last_activity_on,
         }
         res.render('body/index', { viewData })
       }
