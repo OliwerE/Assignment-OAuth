@@ -89,6 +89,7 @@ export class GitlabController {
         } else if (events.length === 0) {
           next(createError(404))
         } else {
+          // Select data from events.
           const activities = events.map(e => ({
             projectId: e.project_id,
             action: e.action_name,

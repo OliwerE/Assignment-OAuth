@@ -52,6 +52,7 @@ async function run () {
 
   app.use('/', router)
 
+  // Errors
   app.use((err, req, res, next) => {
     if (err.status === 401) {
       return res.status(401).sendFile(join(fullDirName, 'views', 'errors', '401.html'))
