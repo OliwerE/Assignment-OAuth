@@ -20,16 +20,15 @@ async function run () {
       directives: {
         ...helmet.contentSecurityPolicy.getDefaultDirectives(),
         'default-src': ['self'],
-        'script-src': ['self','https://gitlab.lnu.se/','cdn.jsdelivr.net'],
-        'img-src': ['self','https://gitlab.lnu.se/','*.gravatar.com','cdn.jsdelivr.net']
+        'script-src': ['self', 'https://gitlab.lnu.se/', 'cdn.jsdelivr.net'],
+        'img-src': ['self', 'https://gitlab.lnu.se/', '*.gravatar.com', 'cdn.jsdelivr.net']
       }
     },
     crossOriginResourcePolicy: { policy: 'cross-origin' },
     crossOriginEmbedderPolicy: false
-    })
+  })
   )
   app.use(logger('dev'))
-
 
   const fullDirName = dirname(fileURLToPath(import.meta.url))
   app.engine('hbs', hbs.express4({

@@ -10,6 +10,4 @@ export const router = express.Router()
 router.use('/auth', authRouter)
 router.use('/', gitlabRouter)
 
-router.use('*', (req, res, next) => {
-  next(createError(404))
-})
+router.use('*', (req, res, next) => next(createError(404)))

@@ -1,5 +1,5 @@
 
-/** 
+/**
  * Mongoose configuration module.
  */
 

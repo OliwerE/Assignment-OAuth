@@ -47,11 +47,11 @@ export class AuthController {
     }
   }
 
-  async #fetchData(url, method) {
+  async #fetchData (url, method) {
     return fetch(url, {
       headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
       },
       method: method
     }).then(res => {
@@ -63,7 +63,7 @@ export class AuthController {
     })
   }
 
-  async refreshToken(req, res, next) {
+  async refreshToken (req, res, next) {
     try {
       const tokenData = await this.#fetchData(`https://${process.env.GITLAB_BASE_URL}/oauth/token?client_id=${process.env.CLIENT_ID}&client_secret=${process.env.CLIENT_SECRET}&refresh_token=${req.session.gitlabTokenData.refresh_token}&grant_type=refresh_token&redirect_uri=${process.env.REDIRECT_URI}`, 'POST')
 

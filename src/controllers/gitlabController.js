@@ -13,9 +13,9 @@ export class GitlabController {
   async #fetchData (url, method, authorization) {
     return fetch(url, {
       headers: {
-        'Accept': 'application/json',
+        Accept: 'application/json',
         'Content-Type': 'application/json',
-        'Authorization': 'Bearer ' + authorization
+        Authorization: 'Bearer ' + authorization
       },
       method: method
     }).then(res => {
@@ -34,6 +34,7 @@ export class GitlabController {
       if (user.error === 'invalid_token') {
         res.redirect('/auth/refresh')
       } else {
+        // eslint-disable-next-line camelcase
         const { name, username, id, email, avatar_url, last_activity_on } = user
 
         const viewData = {
@@ -68,8 +69,8 @@ export class GitlabController {
             action: e.action_name,
             type: e.target_type,
             title: e.target_title,
-            commitTitle: (e.push_data !== null && e.push_data !== undefined  ? e.push_data.commit_title : undefined),
-            createdAt: moment(e.created_at).fromNow(),
+            commitTitle: (e.push_data !== null && e.push_data !== undefined ? e.push_data.commit_title : undefined),
+            createdAt: moment(e.created_at).fromNow()
           }))
 
           const viewData = {
