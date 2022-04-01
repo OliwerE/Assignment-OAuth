@@ -65,7 +65,7 @@ export class AuthController {
 
   async refreshToken(req, res, next) {
     try {
-      const tokenData = this.#fetchData(`https://${process.env.GITLAB_BASE_URL}/oauth/token?client_id=${process.env.CLIENT_ID}&client_secret=${process.env.CLIENT_SECRET}&refresh_token=${req.session.gitlabTokenData.refresh_token}&grant_type=refresh_token&redirect_uri=${process.env.REDIRECT_URI}`, 'POST')
+      const tokenData = await this.#fetchData(`https://${process.env.GITLAB_BASE_URL}/oauth/token?client_id=${process.env.CLIENT_ID}&client_secret=${process.env.CLIENT_SECRET}&refresh_token=${req.session.gitlabTokenData.refresh_token}&grant_type=refresh_token&redirect_uri=${process.env.REDIRECT_URI}`, 'POST')
 
       req.session.gitlabTokenData = tokenData
       res.redirect('/')

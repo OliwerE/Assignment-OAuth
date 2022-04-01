@@ -23,5 +23,6 @@ export const router = express.Router()
 const controller = new GitlabController()
 
 router.get('/', authorize, (req, res, next) => controller.index(req, res, next))
+router.get('/activity', authorize, (req, res, next) => controller.activity(req, res, next))
 
 router.use('*', (req, res, next) => next(createError(404)))

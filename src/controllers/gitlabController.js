@@ -33,7 +33,12 @@ export class GitlabController {
       if (user.error === 'invalid_token') {
         res.redirect('/auth/refresh')
       } else {
-        const { name, username, id, email, avatar_url, last_activity_on } = user // last_activity_on ska ha tid?? sakans!
+        const latestEvent = await this.#fetchData(`https://${process.env.GITLAB_BASE_URL}/api/v4/events?per_page=1`, 'GET', req.session.gitlabTokenData.access_token)
+        const { name, username, id, email, avatar_url, last_activity_on } = user
+
+        // Format latest activity date
+        const lastActivityDate = new Date(latestEvent[0].created_at)
+        const lastActivity = lastActivityDate.getDate() + '/' + (lastActivityDate.getMonth() + 1) + '-' + lastActivityDate.getFullYear() + ', kl: ' + lastActivityDate.getHours() + ':' + lastActivityDate.getMinutes()
 
         const viewData = {
           csrfToken: req.csrfToken(),
@@ -42,12 +47,22 @@ export class GitlabController {
           id,
           email,
           avatar_url,
-          last_activity_on,
+          last_activity_on: lastActivity
         }
         res.render('body/index', { viewData })
       }
     } catch (err) {
       createError(500)
+    }
+  }
+
+  async activity (req, res, next) {
+    try {
+      // const eventsPage1 = await this.#fetchData(`https://${process.env.GITLAB_BASE_URL}/api/v4/events?per_page=100`, 'GET', req.session.gitlabTokenData.access_token)
+      // const eventsPage2 = await this.#fetchData(`https://${process.env.GITLAB_BASE_URL}/api/v4/events?per_page=100&page=2`, 'GET', req.session.gitlabTokenData.access_token)
+      res.render('body/activity')
+    } catch (err) {
+      next(createError(500))
     }
   }
 }

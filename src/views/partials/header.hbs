@@ -8,3 +8,11 @@
     </form>
   {{/unless}}
 </header>
+{{#unless viewData.hideLogout}}
+  <nav>
+    <ul>
+      <li><a href="/">Profile</a></li>
+      <li><a href="/activity">Activity</a></li>
+    </ul>
+  </nav>
+{{/unless}}
