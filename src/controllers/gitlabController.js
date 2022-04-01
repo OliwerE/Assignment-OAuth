@@ -28,7 +28,7 @@ export class GitlabController {
 
   async index (req, res, next) { // ToDo auth before!
     try {
-      const user = await this.#fetchData('https://gitlab.lnu.se/api/v4/user', 'GET', req.session.gitlabTokenData.access_token)
+      const user = await this.#fetchData(`https://${process.env.GITLAB_BASE_URL}/api/v4/user`, 'GET', req.session.gitlabTokenData.access_token)
 
       if (user.error === 'invalid_token') {
         res.redirect('/auth/refresh')

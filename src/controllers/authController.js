@@ -21,20 +21,10 @@ export class AuthController {
     try {
       const code = req.query.code
       if (code) {
-        await fetch(`https://gitlab.lnu.se//oauth/token?client_id=${process.env.CLIENT_ID}&client_secret=${process.env.CLIENT_SECRET}&code=${code}&grant_type=authorization_code&redirect_uri=${process.env.REDIRECT_URI}`, {
-          headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-          },
-          method: "POST"
-          }).then(res => {
-            return res.json()
-          }).then(json => {
-            req.session.gitlabTokenData = json
-            res.redirect('/')
-          }).catch(err => {
-            console.log(err)
-          })
+        const tokenData = await this.#fetchData(`https://${process.env.GITLAB_BASE_URL}/oauth/token?client_id=${process.env.CLIENT_ID}&client_secret=${process.env.CLIENT_SECRET}&code=${code}&grant_type=authorization_code&redirect_uri=${process.env.REDIRECT_URI}`, 'POST')
+
+        req.session.gitlabTokenData = tokenData
+        res.redirect('/')
       } else {
         next(createError(500))
       }
@@ -43,22 +33,28 @@ export class AuthController {
     }
   }
 
+  async #fetchData(url, method) {
+    return fetch(url, {
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      method: method
+    }).then(res => {
+      return res.json()
+    }).then(json => {
+      return json
+    }).catch(err => {
+      console.log(err)
+    })
+  }
+
   async refreshToken(req, res, next) {
     try {
-      await fetch(`https://gitlab.lnu.se/oauth/token?client_id=${process.env.CLIENT_ID}&client_secret=${process.env.CLIENT_SECRET}&refresh_token=${req.session.gitlabTokenData.refresh_token}&grant_type=refresh_token&redirect_uri=${process.env.REDIRECT_URI}`, {
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json'
-        },
-        method: "POST"
-      }).then(res => {
-        return res.json()
-      }).then(json => {
-        req.session.gitlabTokenData = json
-        res.redirect('/')
-      }).catch(err => {
-        console.log(err)
-      })
+      const tokenData = this.#fetchData(`https://${process.env.GITLAB_BASE_URL}/oauth/token?client_id=${process.env.CLIENT_ID}&client_secret=${process.env.CLIENT_SECRET}&refresh_token=${req.session.gitlabTokenData.refresh_token}&grant_type=refresh_token&redirect_uri=${process.env.REDIRECT_URI}`, 'POST')
+
+      req.session.gitlabTokenData = tokenData
+      res.redirect('/')
     } catch (err) {
       next(createError(500))
     }
