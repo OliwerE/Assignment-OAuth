@@ -11,7 +11,11 @@ import fetch from 'node-fetch'
 export class AuthController {
   login (req, res, next) {
     try {
-      res.render('body/login')
+      const viewData = {
+        uri: `https://gitlab.lnu.se/oauth/authorize?client_id=${process.env.CLIENT_ID}&redirect_uri=${process.env.REDIRECT_URI}&response_type=code&state=STATE&scope=api+read_user+read_api+read_repository+write_repository+read_registry+write_registry+sudo+openid+profile+email`
+      }
+
+      res.render('body/login', { viewData })
     } catch (err) {
       next(createError(500))
     }
