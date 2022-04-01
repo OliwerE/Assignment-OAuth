@@ -53,7 +53,7 @@ main #profile-image-container {
   width: 200px;
   height: 200px;
   border-radius: 50%;
-  background-color: #1996df;
+  border: 3px solid #1996df;
 }
 
 main #profile-image-container img {
