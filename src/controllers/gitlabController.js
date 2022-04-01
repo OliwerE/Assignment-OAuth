@@ -83,7 +83,10 @@ export class GitlabController {
         next(createError(404))
       } else {
         const events = await this.#fetchData(`https://${process.env.GITLAB_BASE_URL}/api/v4/events?per_page=50&page=${page}`, 'GET', req.session.gitlabTokenData.access_token)
-        if (events.length === 0) {
+
+        if (events.error === 'invalid_token') {
+          res.redirect('/auth/refresh')
+        } else if (events.length === 0) {
           next(createError(404))
         } else {
           const activities = events.map(e => ({
