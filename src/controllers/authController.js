@@ -9,6 +9,13 @@ import fetch from 'node-fetch'
  * Class represents auth controller.
  */
 export class AuthController {
+  /**
+   * Login user.
+   *
+   * @param {object} req - Request object.
+   * @param {object} res - Response object.
+   * @param {Function} next - Next function.
+   */
   login (req, res, next) {
     try {
       const viewData = {
@@ -22,6 +29,13 @@ export class AuthController {
     }
   }
 
+  /**
+   * Logout user.
+   *
+   * @param {object} req - Request object.
+   * @param {object} res - Response object.
+   * @param {Function} next - Next function.
+   */
   logout (req, res, next) {
     try {
       req.session.destroy()
@@ -31,6 +45,13 @@ export class AuthController {
     }
   }
 
+  /**
+   * Store gitlab token using callback code.
+   *
+   * @param {object} req - Request object.
+   * @param {object} res - Response object.
+   * @param {Function} next - Next function.
+   */
   async gitlabCallback (req, res, next) {
     try {
       const code = req.query.code
@@ -47,6 +68,13 @@ export class AuthController {
     }
   }
 
+  /**
+   * Fetch JSON data from an url using a HTTP method.
+   *
+   * @param {string} url - Url to fetch.
+   * @param {string} method - HTTP method.
+   * @returns {JSON} - Response data.
+   */
   async #fetchData (url, method) {
     return fetch(url, {
       headers: {
@@ -63,6 +91,13 @@ export class AuthController {
     })
   }
 
+  /**
+   * Updates gitlab token using refresh token.
+   *
+   * @param {object} req - Request object.
+   * @param {object} res - Response object.
+   * @param {Function} next - Next function.
+   */
   async refreshToken (req, res, next) {
     try {
       const tokenData = await this.#fetchData(`https://${process.env.GITLAB_BASE_URL}/oauth/token?client_id=${process.env.CLIENT_ID}&client_secret=${process.env.CLIENT_SECRET}&refresh_token=${req.session.gitlabTokenData.refresh_token}&grant_type=refresh_token&redirect_uri=${process.env.REDIRECT_URI}`, 'POST')

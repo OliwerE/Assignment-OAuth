@@ -6,10 +6,17 @@ import express from 'express'
 import createError from 'http-errors'
 import { AuthController } from '../controllers/authController.js'
 
+/**
+ * Check if gitlab token data doesn't exist.
+ *
+ * @param {object} req - Request object.
+ * @param {object} res - Response object.
+ * @param {Function} next - Next function.
+ */
 const checkInactiveSession = (req, res, next) => {
   try {
     if (req.session.gitlabTokenData === undefined) {
-      return next()
+      next()
     } else {
       next(createError(404))
     }
@@ -18,10 +25,17 @@ const checkInactiveSession = (req, res, next) => {
   }
 }
 
+/**
+ * Check if gitlab token data exist.
+ *
+ * @param {object} req - Request object.
+ * @param {object} res - Response object.
+ * @param {Function} next - Next function.
+ */
 const checkActiveSession = (req, res, next) => {
   try {
     if (req.session.gitlabTokenData) {
-      return next()
+      next()
     } else {
       res.redirect('/auth/login')
     }

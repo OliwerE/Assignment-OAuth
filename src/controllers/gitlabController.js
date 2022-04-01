@@ -10,6 +10,14 @@ import moment from 'moment'
  * Class represents Gitlab controller.
  */
 export class GitlabController {
+  /**
+   * Fetch JSON data from an url using a HTTP method and authorization token.
+   *
+   * @param {string} url - Url to fetch.
+   * @param {string} method - HTTP method.
+   * @param {string} authorization - authorization token.
+   * @returns {JSON} - Response data.
+   */
   async #fetchData (url, method, authorization) {
     return fetch(url, {
       headers: {
@@ -27,6 +35,13 @@ export class GitlabController {
     })
   }
 
+  /**
+   * Render index page.
+   *
+   * @param {object} req - Request object.
+   * @param {object} res - Response object.
+   * @param {Function} next - Next function.
+   */
   async index (req, res, next) {
     try {
       const user = await this.#fetchData(`https://${process.env.GITLAB_BASE_URL}/api/v4/user`, 'GET', req.session.gitlabTokenData.access_token)
@@ -53,6 +68,13 @@ export class GitlabController {
     }
   }
 
+  /**
+   * Render activity page.
+   *
+   * @param {object} req - Request object.
+   * @param {object} res - Response object.
+   * @param {Function} next - Next function.
+   */
   async activity (req, res, next) {
     try {
       const page = req.query.page || '1'

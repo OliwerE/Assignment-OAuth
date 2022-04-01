@@ -12,6 +12,9 @@ import hbs from 'express-hbs'
 import { router } from './routes/router.js'
 import { connectMongoDB } from './config/mongoose.js'
 
+/**
+ * Configure Express application.
+ */
 async function run () {
   const app = express()
   await connectMongoDB(app)

@@ -6,10 +6,17 @@ import express from 'express'
 import createError from 'http-errors'
 import { GitlabController } from '../controllers/gitlabController.js'
 
+/**
+ * Check if gitlab token data exist.
+ *
+ * @param {object} req - Request object.
+ * @param {object} res - Response object.
+ * @param {Function} next - Next function.
+ */
 const authorize = (req, res, next) => {
   try {
     if (req.session.gitlabTokenData) {
-      return next()
+      next()
     } else {
       res.redirect('/auth/login')
     }
