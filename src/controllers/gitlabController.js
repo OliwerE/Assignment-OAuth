@@ -4,6 +4,7 @@
 
 import createError from 'http-errors'
 import fetch from 'node-fetch'
+import moment from 'moment'
 
 /**
  * Class represents Gitlab controller.
@@ -26,7 +27,7 @@ export class GitlabController {
     })
   }
 
-  async index (req, res, next) { // ToDo auth before!
+  async index (req, res, next) {
     try {
       const user = await this.#fetchData(`https://${process.env.GITLAB_BASE_URL}/api/v4/user`, 'GET', req.session.gitlabTokenData.access_token)
 
@@ -76,9 +77,31 @@ export class GitlabController {
 
   async activity (req, res, next) {
     try {
-      // const eventsPage1 = await this.#fetchData(`https://${process.env.GITLAB_BASE_URL}/api/v4/events?per_page=100`, 'GET', req.session.gitlabTokenData.access_token)
-      // const eventsPage2 = await this.#fetchData(`https://${process.env.GITLAB_BASE_URL}/api/v4/events?per_page=100&page=2`, 'GET', req.session.gitlabTokenData.access_token)
-      res.render('body/activity')
+      const page = req.query.page || '1'
+
+      if (page < 1) {
+        next(createError(404))
+      } else {
+        const events = await this.#fetchData(`https://${process.env.GITLAB_BASE_URL}/api/v4/events?per_page=50&page=${page}`, 'GET', req.session.gitlabTokenData.access_token)
+        if (events.length === 0) {
+          next(createError(404))
+        } else {
+          const activities = events.map(e => ({
+            projectId: e.project_id,
+            action: e.action_name,
+            type: e.target_type,
+            title: e.target_title,
+            createdAt: moment(e.created_at).fromNow(),
+          }))
+
+          const viewData = {
+            activities,
+            prev: parseInt(page) - 1,
+            next: parseInt(page) + 1
+          }
+          res.render('body/activity', { viewData })
+        }
+      }
     } catch (err) {
       next(createError(500))
     }

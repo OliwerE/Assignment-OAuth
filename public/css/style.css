@@ -104,9 +104,7 @@ nav ul li a:hover:after{
 
 main {
   width: 100%;
-  min-height: fit-content;
-  min-height: 450px;
-  height: calc(100vh - 125px);
+  min-height: calc(100vh - 125px);
 }
 
 main #profile-information {
@@ -132,6 +130,61 @@ main #profile-image-container {
 main #profile-image-container img {
   max-width: 150px;
   max-height: 150px;
+}
+
+#pagination-nav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+  height: 100px;
+}
+
+#pagination-nav a {
+  font-size: 1.5rem;
+  color: #fff;
+  text-decoration: none;
+  background-color: #1996df;
+  border: 1px solid #1996df;
+  padding: 0.75rem;
+  border-radius: 0.25rem;
+}
+
+#pagination-nav a:hover {
+  cursor: pointer;
+  color: #1996df;
+  background-color: #fff;
+}
+
+#activity-table {
+  margin: 0 auto;
+  margin-top: 1rem;
+  min-width: 600px;
+  border-collapse: collapse;
+}
+
+#activity-table thead {
+  background-color: #5c5c5c;
+  color: #fff;
+}
+
+.activity-tr th, .activity-tr td {
+  text-align: center;
+  height: 30px;
+  border: 1px solid #000;
+}
+
+.activity-tr:nth-child(odd) {
+  background-color: #e0e0e0;
+}
+
+.activity-tr:nth-child(even) {
+  background-color: #ffffff;
+}
+
+.activity-tr:hover {
+  color: #fff;
+  background-color: #1996df;
 }
 
 /* /Main */
