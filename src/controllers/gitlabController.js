@@ -73,6 +73,7 @@ export class GitlabController {
           }))
 
           const viewData = {
+            csrfToken: req.csrfToken(),
             activities,
             prev: parseInt(page) - 1,
             next: parseInt(page) + 1
