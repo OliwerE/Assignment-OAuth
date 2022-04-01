@@ -12,7 +12,7 @@ export class AuthController {
   login (req, res, next) {
     try {
       const viewData = {
-        uri: `https://gitlab.lnu.se/oauth/authorize?client_id=${process.env.CLIENT_ID}&redirect_uri=${process.env.REDIRECT_URI}&response_type=code&state=STATE&scope=api+read_user+read_api+read_repository+write_repository+read_registry+write_registry+sudo+openid+profile+email`
+        uri: `https://gitlab.lnu.se/oauth/authorize?client_id=${process.env.CLIENT_ID}&redirect_uri=${process.env.REDIRECT_URI}&response_type=code&state=STATE&scope=${process.env.SCOPE}`
       }
 
       res.render('body/login', { viewData })
