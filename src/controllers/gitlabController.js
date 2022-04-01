@@ -37,28 +37,6 @@ export class GitlabController {
         const latestEvent = await this.#fetchData(`https://${process.env.GITLAB_BASE_URL}/api/v4/events?per_page=1`, 'GET', req.session.gitlabTokenData.access_token)
         const { name, username, id, email, avatar_url, last_activity_on } = user
 
-        // Format latest activity date
-        const lastActivityDate = new Date(latestEvent[0].created_at)
-        const day = lastActivityDate.getDate()
-        const month = lastActivityDate.getMonth()
-        const year = lastActivityDate.getFullYear()
-
-        let hour
-        if (lastActivityDate.getHours() >= 1 && lastActivityDate.getHours() <= 9) {
-          hour = '0' + lastActivityDate.getHours()
-        } else {
-          hour = lastActivityDate.getHours()
-        }
-
-        let minutes
-        if (lastActivityDate.getMinutes() >= 1 && lastActivityDate.getMinutes() <= 9) {
-          minutes = '0' + lastActivityDate.getMinutes()
-        } else {
-          minutes = lastActivityDate.getMinutes()
-        }
-
-        const lastActivity = day + '/' + month + '-' + year + ', kl: ' + hour + ':' + minutes
-
         const viewData = {
           csrfToken: req.csrfToken(),
           name,
@@ -66,7 +44,7 @@ export class GitlabController {
           id,
           email,
           avatar_url,
-          last_activity_on: lastActivity
+          last_activity_on
         }
         res.render('body/index', { viewData })
       }
